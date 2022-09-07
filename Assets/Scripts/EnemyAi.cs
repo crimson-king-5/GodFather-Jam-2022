@@ -5,44 +5,37 @@ using UnityEngine;
 
 public class EnemyAi : MonoBehaviour
 {
-    NavMeshAgent agent;
+    NavMeshAgent _agent;
     public Transform[] waypoints;
-    int waypointsIndex;
-    Vector3 target;
-    
+    int _waypointsIndex = 0;
+    Vector3 _target = Vector3.zero;
     
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
         UpdateDestination();
     }
 
   
     void Update()
     {
-        if(Vector3.Distance(transform.position, target) < 4)
+        if(_agent.remainingDistance < 1)
         {
             IterateWaypointIndex();
             UpdateDestination();
-            Debug.Log("here i am ");
         }
-
-        
     }
 
     void UpdateDestination()
     {
-        target = waypoints[waypointsIndex].position;
-        agent.SetDestination(target);
-        Debug.Log(target);
+        _target = waypoints[_waypointsIndex].position;
+        _agent.SetDestination(_target);
     }
 
     void IterateWaypointIndex()
     {
-        waypointsIndex++;
-        if(waypointsIndex == waypoints.Length)
-        {
-            waypointsIndex = 0;
-        }
+        _waypointsIndex++;
+        if(_waypointsIndex == waypoints.Length)
+            _waypointsIndex = 0;
     }
 }
