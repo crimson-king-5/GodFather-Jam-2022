@@ -4,17 +4,15 @@ public class DragAndShoot : MonoBehaviour
 {
     [Header("Movement")]
     public float maxPower;
-    [Range(0f, 0.1f)] public float slowMotion;
     private float _shootPower = 0f;
 
-    public bool shootWhileMoving = false;
     public bool forwardDraging = true;
     public bool showLineOnScreen = false;
 
     [Header("Target")]
     public GameObject target = null;
-    public Transform topScreen = null;
-    public Transform BottomScreen = null;
+    private Vector3 _testDir = Vector3.zero;
+    private Vector3 _startDir = Vector3.zero;
 
 
     private Transform direction = null;
@@ -43,17 +41,10 @@ public class DragAndShoot : MonoBehaviour
             MouseClick();
 
         if (Input.GetMouseButton(0))
-        {
             MouseDrag();
-            if (shootWhileMoving) 
-                rb.velocity /= (1 + slowMotion);
-        }
 
         if (Input.GetMouseButtonUp(0))
             MouseRelease();
-
-        if (shootWhileMoving)
-            return;
 
         if (rb.velocity.magnitude < 0.7f)
         {
@@ -64,27 +55,18 @@ public class DragAndShoot : MonoBehaviour
 
     private void MouseClick()
     {
-        if (shootWhileMoving)
+        if (_canShoot)
         {
             Vector2 dir = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.right = dir * 1;
             _startMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
-        else
-        {
-            if (_canShoot)
-            {
-                Vector2 dir = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                transform.right = dir * 1;
-                _startMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
         }
     }
 
     private void MouseDrag()
     {
         CalculateTargetPos();
-        if (shootWhileMoving)
+        if (_canShoot)
         {
             LookAtShootDirection();
             DrawLine();
@@ -100,49 +82,22 @@ public class DragAndShoot : MonoBehaviour
                     screenLine.enabled = true;
             }
         }
-        else
-        {
-            if (_canShoot)
-            {
-                LookAtShootDirection();
-                DrawLine();
-
-                if (showLineOnScreen)
-                    DrawScreenLine();
-
-                float distance = Vector2.Distance(_currentMousePos, _startMousePos);
-                if (distance > 1)
-                {
-                    line.enabled = true;
-                    if (showLineOnScreen)
-                        screenLine.enabled = true;
-                }
-            }
-        }
     }
 
     private void MouseRelease()
     {
-        if (shootWhileMoving)
+        if (_canShoot)
         {
             Shoot();
             screenLine.enabled = false;
             line.enabled = false;
-        }
-        else
-        {
-            if (_canShoot)
-            {
-                Shoot();
-                screenLine.enabled = false;
-                line.enabled = false;
-            }
         }
     }
 
     private void LookAtShootDirection()
     {
         Vector3 dir = _startMousePos - _currentMousePos;
+        _testDir = new Vector3(dir.x, 0, dir.y);
 
         if (forwardDraging)
             transform.right = dir * -1;
@@ -163,6 +118,7 @@ public class DragAndShoot : MonoBehaviour
             direction.localPosition = new Vector2(maxPower / 6, 0);
         }
     }
+
     public void Shoot()
     {
         _canShoot = false;
@@ -194,8 +150,11 @@ public class DragAndShoot : MonoBehaviour
 
     private void CalculateTargetPos()
     {
-        Vector3 offset = transform.position + BottomScreen.position;
-        target.transform.position = (new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, 0, Camera.main.ScreenToWorldPoint(Input.mousePosition).y + 30) 
-            - BottomScreen.position) + topScreen.position;
+        float angle = Vector3.SignedAngle(_startDir, _testDir, Vector3.forward);
+        if (angle < 0)
+            angle += 360;
+        target.transform.rotation = Quaternion.Euler(new Vector3(90, 0, angle));
+        target.transform.localPosition = new Vector3(target.transform.up.x * (_shootPower / 2), 5f, 
+            target.transform.up.z * (_shootPower / 2));
     }
 }
