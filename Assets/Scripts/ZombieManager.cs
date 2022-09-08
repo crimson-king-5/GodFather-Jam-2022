@@ -5,7 +5,8 @@ using UnityEngine;
 public class ZombieManager : MonoBehaviour
 {
     [Header("Zombie Parameters")]
-    [SerializeField] private GameObject zombiePrefab = null;
+    [SerializeField] private GameObject zombie2DPrefab = null;
+    [SerializeField] private GameObject zombie3DPrefab = null;
     [SerializeField] private List<Transform> listSpawnTransform = new List<Transform>();
     private List<GameObject> zombieList = new List<GameObject>();
 
@@ -27,13 +28,13 @@ public class ZombieManager : MonoBehaviour
             switch (zombieList.Count)
             {
                 case 0:
-                    zombie = Instantiate(zombiePrefab, listSpawnTransform[0].position, listSpawnTransform[0].rotation);
+                    zombie = Instantiate(zombie2DPrefab, listSpawnTransform[0].position, listSpawnTransform[0].rotation);
                     break;
                 case 1:
-                    zombie = Instantiate(zombiePrefab, listSpawnTransform[1].position, listSpawnTransform[1].rotation);
+                    zombie = Instantiate(zombie2DPrefab, listSpawnTransform[1].position, listSpawnTransform[1].rotation);
                     break ;
                 case 2:
-                    zombie = Instantiate(zombiePrefab, listSpawnTransform[2].position, listSpawnTransform[2].rotation);
+                    zombie = Instantiate(zombie2DPrefab, listSpawnTransform[2].position, listSpawnTransform[2].rotation);
                     break;
             }
             zombieList.Add(zombie);
@@ -44,6 +45,11 @@ public class ZombieManager : MonoBehaviour
     {
         zombieList.Remove(zombie);
         Destroy(zombie, timeAfterKillAnim);
+    }
+
+    public void SpawnZombie3D(Transform transformZombie)
+    {
+        Instantiate(zombie3DPrefab, transformZombie.position, transformZombie.rotation);
     }
 
 }
