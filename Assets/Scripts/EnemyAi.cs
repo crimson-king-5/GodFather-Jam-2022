@@ -6,7 +6,8 @@ using UnityEngine;
 public class EnemyAi : MonoBehaviour
 {
     NavMeshAgent _agent;
-    public Transform[] waypoints;
+    private List<Transform> waypoints;
+
     int _waypointsIndex = 0;
     Vector3 _target = Vector3.zero;
     
@@ -35,7 +36,18 @@ public class EnemyAi : MonoBehaviour
     void IterateWaypointIndex()
     {
         _waypointsIndex++;
-        if(_waypointsIndex == waypoints.Length)
+        if(_waypointsIndex == waypoints.Count)
             _waypointsIndex = 0;
+    }
+    public void ChoicePoint(int value)
+    {
+        if (value == 0)
+        {
+            waypoints = HumanManager.instance.waypointsAtoB;
+        }
+        else
+        {
+            waypoints = HumanManager.instance.waypointsCtoD;
+        }
     }
 }

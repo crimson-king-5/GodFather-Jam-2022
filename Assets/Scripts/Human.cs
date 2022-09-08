@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
+   
     public enum HumaneNature
     {
         OldHuman,
         Adult,
         Baby
     }
+    [HideInInspector]public HumaneNature humaneNature = HumaneNature.OldHuman;
+    List<HumaneNature> ListHumanNature = new List<HumaneNature>();
 
-    private HumaneNature _nature;
     private void Start()
     {
-        
-    
-    int random = Random.Range(0, 2);
-        switch (random)
+        ListHumanNature.Add(HumaneNature.Adult);
+        ListHumanNature.Add(HumaneNature.Baby);
+        ListHumanNature.Add(HumaneNature.OldHuman);
+
+        humanchoice();
+    }
+   public void humanchoice()
+    {
+        int counter = 0;
+        switch (counter)
         {
             case 0:
-                _nature = HumaneNature.OldHuman;
+                humaneNature = HumaneNature.OldHuman;
                 break;
             case 1:
-                _nature = HumaneNature.Adult;
+                humaneNature = HumaneNature.Adult;
                 break;
             case 2:
-                _nature = HumaneNature.Baby;
+                humaneNature = HumaneNature.Baby;
                 break;
         }
+        counter++;
     }
+
 }
