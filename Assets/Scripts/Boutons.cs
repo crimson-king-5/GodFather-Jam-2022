@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Boutons : MonoBehaviour
 {
+    [SerializeField] private GameObject pauseMenu = null;
     public void RunGame (){
         SceneManager.LoadScene("DovoScene");
     }
@@ -14,16 +15,11 @@ public class Boutons : MonoBehaviour
     }
 
     public void BackMenu(){
-        SceneManager.LoadScene("SantinoScene");
+        SceneManager.LoadScene("Menu");
     }
 
     public void Reprendre(){
+        pauseMenu.SetActive(false);
         Time.timeScale=1;
-    }
-
-    void Update() {
-        if (Input.GetKey(KeyCode.Escape)){
-            Time.timeScale=0;
-        }
     }
 }
