@@ -2,19 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public TextMeshProUGUI MyScoreText;
+
+    
     public int health = 3;
     public Image healthUI;
     [SerializeField] private List<Sprite> healthSprites = new List<Sprite>();
     [SerializeField] private GameObject pauseMenu = null;
     [SerializeField] private GameObject screenDuBas = null;
-
+    [SerializeField]private int ScoreNum;
 
     public static GameManager instance;
-
+    private void Start()
+    {
+        ScoreNum = 0;
+        MyScoreText.text = "Score : " + ScoreNum;
+    }
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -69,5 +77,11 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false);
         screenDuBas.SetActive(true);
         Time.timeScale = 1;
+    }
+
+    public void MoreScore()
+    {
+        ScoreNum++;
+        Debug.Log("+1");
     }
 }

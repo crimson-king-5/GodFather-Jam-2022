@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Zombie3D : MonoBehaviour
 {
+   
     private Animator anime;
 
     private void Start()
     {
         anime = GetComponent<Animator>();
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -21,6 +24,7 @@ public class Zombie3D : MonoBehaviour
                 HumanManager.instance.Destroyhuman(collision.gameObject, 2f);
                 collision.gameObject.GetComponent<Animator>().SetTrigger("Death");
                 anime.SetTrigger("touche");
+                GameManager.instance.MoreScore();
                 Destroy(gameObject, 2f);
             }
             else
