@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Zombie2D
+  - Human
+  - Floor
   layers:
   - Default
   - TransparentFX

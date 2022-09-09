@@ -10,7 +10,7 @@ public class DragAndShoot : MonoBehaviour
     public bool showLineOnScreen = false;
 
     [Header("Target")]
-    public GameObject target = null;
+    private GameObject target = null;
     private Vector3 _testDir = Vector3.zero;
     private Vector3 _startDir = Vector3.zero;
 
@@ -25,7 +25,10 @@ public class DragAndShoot : MonoBehaviour
     private Vector3 _startMousePos = Vector2.zero;
     private Vector3 _currentMousePos = Vector2.zero;
 
-    private bool _canShoot = true;
+    [HideInInspector] public bool _canShoot = false;
+
+    private float _timer = 0;
+    public float duration = 5f;
 
     private void Start()
     {
@@ -46,28 +49,32 @@ public class DragAndShoot : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             MouseRelease();
 
-        if (rb.velocity.magnitude < 0.7f)
+        if (_timer >= duration)
         {
-            rb.velocity = new Vector2(0, 0);
-            _canShoot = true;
+            GameManager.instance.health--;
+            _timer = 0f;
         }
+
     }
 
     private void MouseClick()
     {
         if (_canShoot)
         {
+            target = ZombieManager.instance.target;
             Vector2 dir = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.right = dir * 1;
             _startMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _startDir = target.transform.up;
         }
     }
 
     private void MouseDrag()
     {
-        CalculateTargetPos();
         if (_canShoot)
         {
+            _timer += Time.deltaTime;
+            CalculateTargetPos();
             LookAtShootDirection();
             DrawLine();
 
@@ -88,9 +95,13 @@ public class DragAndShoot : MonoBehaviour
     {
         if (_canShoot)
         {
+            _timer = 0f;
             Shoot();
             screenLine.enabled = false;
             line.enabled = false;
+            ZombieManager.instance.zombie2DEnvy = gameObject.GetComponent<Zombie>()._envy.ToString();
+            ZombieManager.instance.SpawnZombie3D(new Vector3(target.transform.position.x, target.transform.position.y + 20f, target.transform.position.z));
+            ZombieManager.instance.DestroyZombie(gameObject, 1f);
         }
     }
 
@@ -150,11 +161,14 @@ public class DragAndShoot : MonoBehaviour
 
     private void CalculateTargetPos()
     {
-        float angle = Vector3.SignedAngle(_startDir, _testDir, Vector3.forward);
-        if (angle < 0)
-            angle += 360;
-        target.transform.rotation = Quaternion.Euler(new Vector3(90, 0, angle));
-        target.transform.localPosition = new Vector3(target.transform.up.x * (_shootPower / 2), 5f, 
-            target.transform.up.z * (_shootPower / 2));
+        if(target != null)
+        {
+            float angle = Vector3.SignedAngle(_startDir, _testDir, Vector3.forward);
+            if (angle < 0)
+                angle += 360;
+            target.transform.rotation = Quaternion.Euler(new Vector3(90, 0, angle));
+            target.transform.localPosition = new Vector3(target.transform.up.x * (_shootPower / 2), 5f, 
+                target.transform.up.z * (_shootPower / 2));
+        }
     }
 }

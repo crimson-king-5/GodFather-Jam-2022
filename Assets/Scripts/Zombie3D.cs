@@ -4,28 +4,41 @@ using UnityEngine;
 
 public class Zombie3D : MonoBehaviour
 {
-    private Animator Anime;
+    private Animator anime;
 
     private void Start()
     {
-        Anime = GetComponent<Animator>();
+        anime = GetComponent<Animator>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Human"))
         {
+            Human human = collision.gameObject.GetComponent<Human>();
+            if (human.humaneNature.ToString() == ZombieManager.instance.zombie2DEnvy)
+            {
+                HumanManager.instance.Destroyhuman(collision.gameObject, 2f);
+                collision.gameObject.GetComponent<Animator>().SetTrigger("Death");
+                anime.SetTrigger("touche");
+                Destroy(gameObject, 2f);
+            }
+            else
+            {
+                GameManager.instance.health--;
+                anime.SetTrigger("fail");
+                Destroy(gameObject, 1f);
+            }
+
             //attack
-            Anime.SetTrigger("touche");
-            collision.gameObject.GetComponent<EnemyAi>().enabled = false;
-            collision.gameObject.GetComponent<Animator>().SetTrigger("Death");
-
-
+            //collision.gameObject.GetComponent<EnemyAi>().enabled = false;
         }
         else if (collision.gameObject.CompareTag("Floor"))
         {
-            //lose pv
-            Anime.SetTrigger("fail");
+            GameManager.instance.health--;
+            anime.SetTrigger("fail");
+            Destroy(gameObject, 1f);
         }
+        
     }
 }

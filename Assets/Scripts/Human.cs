@@ -4,40 +4,43 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-   
     public enum HumaneNature
     {
-        OldHuman,
-        Adult,
-        Baby
+        Blue,
+        Green,
+        Red
     }
-    [HideInInspector]public HumaneNature humaneNature = HumaneNature.OldHuman;
-    List<HumaneNature> ListHumanNature = new List<HumaneNature>();
+
+    public GameObject chirt;
+    public HumaneNature humaneNature = HumaneNature.Blue;
 
     private void Start()
     {
-        ListHumanNature.Add(HumaneNature.Adult);
-        ListHumanNature.Add(HumaneNature.Baby);
-        ListHumanNature.Add(HumaneNature.OldHuman);
-
         humanchoice();
     }
    public void humanchoice()
     {
-        int counter = 0;
-        switch (counter)
+        int count = HumanManager.instance.counter;
+        switch (count)
         {
             case 0:
-                humaneNature = HumaneNature.OldHuman;
+                humaneNature = HumaneNature.Blue;
+                chirt.GetComponent<Renderer>().materials[1].color = HumanManager.instance.RandomColor(0);
                 break;
             case 1:
-                humaneNature = HumaneNature.Adult;
+                humaneNature = HumaneNature.Green;
+                chirt.GetComponent<Renderer>().materials[1].color = HumanManager.instance.RandomColor(1);
                 break;
             case 2:
-                humaneNature = HumaneNature.Baby;
+                humaneNature = HumaneNature.Red;
+                chirt.GetComponent<Renderer>().materials[1].color = HumanManager.instance.RandomColor(2);
                 break;
         }
-        counter++;
+
+        if (count > 2)
+            HumanManager.instance.counter = 0;
+        else
+            HumanManager.instance.counter++;
     }
 
 }
