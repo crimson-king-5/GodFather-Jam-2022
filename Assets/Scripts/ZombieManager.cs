@@ -94,8 +94,8 @@ public class ZombieManager : MonoBehaviour
 
     IEnumerator SpawnZombie(Vector3 zombiePos)
     {
-        yield return new WaitForSeconds(2f);
         Instantiate(zombie3DPrefab, zombiePos, Quaternion.identity);
+        yield return new WaitForSeconds(1f);
     }
 
 }

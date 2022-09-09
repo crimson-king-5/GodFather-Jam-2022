@@ -14,6 +14,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b93adf99515804b87d5c086f516321,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 91b93adf99515804b87d5c086f516321,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 91b93adf99515804b87d5c086f516321,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 91b93adf99515804b87d5c086f516321,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -107,8 +122,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.8105922, y: 1.9965637, z: 1}
-  m_Center: {x: 0.09229803, y: 0.49828196, z: 0}
+  m_Size: {x: 1.74, y: 0.8299999, z: 1.4654417}
+  m_Center: {x: 0.09229803, y: 0.87, z: 0.23272096}
 --- !u!95 &827043563
 Animator:
   serializedVersion: 4
