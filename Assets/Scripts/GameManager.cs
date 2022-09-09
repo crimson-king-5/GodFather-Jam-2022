@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Image healthUI;
     [SerializeField] private List<Sprite> healthSprites = new List<Sprite>();
     [SerializeField] private GameObject pauseMenu = null;
+    [SerializeField] private GameObject GameOver = null;
     [SerializeField] private GameObject screenDuBas = null;
     [SerializeField]private int ScoreNum;
     [SerializeField] private GameObject Title_Theme;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Button_Clicked;
     public GameObject Scream;
     public GameObject Splash;
-
+    
 
     public static GameManager instance;
     private void Start()
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour
                 Main_Theme.SetActive(false);
                 City_Ambience.SetActive(false);
                 GameOver_Theme.SetActive(true);
+                
+                GameOver.SetActive(true);
                 break;
             case 1 :
                 healthUI.sprite = healthSprites[1];
