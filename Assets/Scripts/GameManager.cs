@@ -73,11 +73,15 @@ public class GameManager : MonoBehaviour
 
     public void RunGame()
     {
-        //SceneManager.LoadScene("DovoScene");
         Title_Theme.SetActive(false);
         Main_Theme.SetActive(true);
         City_Ambience.SetActive(true);
 
+    }
+
+    public void LoadScene()
+    {
+        SceneManager.LoadScene("DovoScene");
     }
 
     public void Quit()

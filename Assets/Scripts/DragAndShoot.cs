@@ -167,8 +167,8 @@ public class DragAndShoot : MonoBehaviour
             if (angle < 0)
                 angle += 360;
             target.transform.rotation = Quaternion.Euler(new Vector3(90, 0, angle));
-            target.transform.localPosition = new Vector3(target.transform.up.x * (_shootPower / 1.5f), 5f, 
-                target.transform.up.z * (_shootPower / 1.5f));
+            target.transform.localPosition = new Vector3(target.transform.up.x * _shootPower, 5f, 
+                target.transform.up.z * _shootPower);
         }
     }
 }
