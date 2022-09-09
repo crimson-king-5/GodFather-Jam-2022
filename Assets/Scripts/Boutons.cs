@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class Boutons : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu = null;
+    [SerializeField] private GameObject Title_Theme;
+    [SerializeField] private GameObject Main_Theme;
     public void RunGame (){
-        SceneManager.LoadScene("DovoScene");
+        //SceneManager.LoadScene("DovoScene");
     }
 
     public void Quit(){
@@ -21,5 +23,11 @@ public class Boutons : MonoBehaviour
     public void Reprendre(){
         pauseMenu.SetActive(false);
         Time.timeScale=1;
+    }
+
+    public void MusicChange()
+    {
+        Title_Theme.SetActive(false);
+        Main_Theme.SetActive(true);
     }
 }

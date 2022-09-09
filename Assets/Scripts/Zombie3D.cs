@@ -7,11 +7,30 @@ public class Zombie3D : MonoBehaviour
 {
    
     private Animator anime;
+    private GameObject _scream;
+    private GameObject _splash;
 
     private void Start()
     {
         anime = GetComponent<Animator>();
-        
+        _scream=GameManager.instance.Scream;
+        _splash=GameManager.instance.Splash;
+    }
+
+    public IEnumerator ZombieTouche()
+    {
+        _scream.SetActive(true);
+        _splash.SetActive(true);
+        yield return new WaitForSeconds(2);
+        _scream.SetActive(false);
+        _splash.SetActive(false);
+    }
+
+    public IEnumerator ZombieRate()
+    {
+        _splash.SetActive(true);
+        yield return new WaitForSeconds(2);
+        _splash.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -26,12 +45,14 @@ public class Zombie3D : MonoBehaviour
                 anime.SetTrigger("touche");
                 GameManager.instance.MoreScore();
                 Destroy(gameObject, 2f);
+                StartCoroutine(ZombieTouche());
             }
             else
             {
                 GameManager.instance.health--;
                 anime.SetTrigger("fail");
                 Destroy(gameObject, 1f);
+                StartCoroutine(ZombieTouche());
             }
 
             //attack
@@ -42,6 +63,7 @@ public class Zombie3D : MonoBehaviour
             GameManager.instance.health--;
             anime.SetTrigger("fail");
             Destroy(gameObject, 1f);
+            StartCoroutine(ZombieRate());
         }
         
     }

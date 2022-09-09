@@ -16,12 +16,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenu = null;
     [SerializeField] private GameObject screenDuBas = null;
     [SerializeField]private int ScoreNum;
+    [SerializeField] private GameObject Title_Theme;
+    [SerializeField] private GameObject Main_Theme;
+    [SerializeField] private GameObject GameOver_Theme;
+    [SerializeField] private GameObject City_Ambience;
+    [SerializeField] private GameObject Button_Clicked;
+    public GameObject Scream;
+    public GameObject Splash;
+
 
     public static GameManager instance;
     private void Start()
     {
         ScoreNum = 0;
-        MyScoreText.text = "Score : " + ScoreNum;
+        //MyScoreText.text = "Score : " + ScoreNum;
     }
     private void Awake()
     {
@@ -37,6 +45,9 @@ public class GameManager : MonoBehaviour
         {
             case 0 :
                 healthUI.sprite = healthSprites[0];
+                Main_Theme.SetActive(false);
+                City_Ambience.SetActive(false);
+                GameOver_Theme.SetActive(true);
                 break;
             case 1 :
                 healthUI.sprite = healthSprites[1];
@@ -59,7 +70,11 @@ public class GameManager : MonoBehaviour
 
     public void RunGame()
     {
-        SceneManager.LoadScene("DovoScene");
+        //SceneManager.LoadScene("DovoScene");
+        Title_Theme.SetActive(false);
+        Main_Theme.SetActive(true);
+        City_Ambience.SetActive(true);
+
     }
 
     public void Quit()
@@ -83,5 +98,17 @@ public class GameManager : MonoBehaviour
     {
         ScoreNum++;
         Debug.Log("+1");
+    }
+
+    public IEnumerator ClickSound()
+    {
+        Button_Clicked.SetActive(true);
+        yield return new WaitForSeconds(1);
+        Button_Clicked.SetActive(false);
+    }
+
+    public void Click()
+    {
+        StartCoroutine(ClickSound());
     }
 }
